@@ -1,0 +1,72 @@
+CREATE DATABASE db_ecom;
+
+USE db_ecom;
+
+
+-- Tạo bảng products
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Khóa chính, tự động tăng
+    name VARCHAR(255) NOT NULL, -- Tên sản phẩm
+    price DECIMAL(10, 2) NOT NULL, -- Giá sản phẩm
+    manufacturer VARCHAR(255), -- Nhà sản xuất
+    attributes JSON -- Các thuộc tính mở rộng
+);
+
+-- Tạo bảng customers
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY, -- Khóa chính, tự động tăng
+    name VARCHAR(255) NOT NULL, -- Tên khách hàng
+    email VARCHAR(255) UNIQUE NOT NULL, -- Email khách hàng
+    phone VARCHAR(20) -- Số điện thoại khách hàng
+);
+
+-- Tạo bảng orders
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY, -- Khóa chính, tự động tăng
+    customer_id INT, -- Khóa ngoại tham chiếu customers
+    product_id INT, -- Khóa ngoại tham chiếu products
+    order_date DATE, -- Ngày đặt hàng
+    quantity INT, -- Số lượng sản phẩm
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+-- Chèn dữ liệu mẫu cho bảng products
+INSERT INTO products (name, price, manufacturer, attributes) VALUES
+('Laptop Pro', 1200.50, 'TechCorp', '{"color": "Silver", "size": "15 inch", "description": "High-performance laptop"}'),
+('Smartphone X', 800.00, 'MobileInc', '{"color": "Black", "size": "6.5 inch", "description": "Flagship smartphone"}'),
+('Tablet Z', 450.99, 'TabTech', '{"color": "Gray", "size": "10 inch", "description": "Lightweight tablet"}'),
+('Smartwatch A', 199.99, 'WearableCo', '{"color": "Black", "size": "1.5 inch", "description": "Fitness tracker watch"}'),
+('Headphones B', 99.99, 'SoundMax', '{"color": "Blue", "size": "Over-ear", "description": "Noise-cancelling headphones"}'),
+('Gaming Console', 499.99, 'GameWorld', '{"color": "White", "size": "Standard", "description": "Next-gen gaming console"}'),
+('Monitor 24"', 150.00, 'DisplayTech', '{"color": "Black", "size": "24 inch", "description": "Full HD monitor"}'),
+('Keyboard RGB', 79.99, 'InputCo', '{"color": "Multi", "size": "Full size", "description": "Mechanical keyboard with RGB"}'),
+('Mouse Pro', 39.99, 'InputCo', '{"color": "Black", "size": "Medium", "description": "Wireless gaming mouse"}'),
+('Speaker Set', 129.99, 'AudioPro', '{"color": "Black", "size": "Compact", "description": "Bluetooth speaker system"}');
+
+-- Chèn dữ liệu mẫu cho bảng customers
+INSERT INTO customers (name, email, phone) VALUES
+('Nguyen Van A', 'nguyenvana@gmail.com', '0912345678'),
+('Tran Thi B', 'tranthib@yahoo.com', '0987654321'),
+('Le Van C', 'levanc@hotmail.com', '0909123456'),
+('Pham Thi D', 'phamthid@gmail.com', '0911223344'),
+('Hoang Van E', 'hoangvane@mail.com', '0988112233'),
+('Nguyen Thi F', 'nguyenthif@gmail.com', '0977554433'),
+('Vu Van G', 'vuvang@mail.com', '0909887766'),
+('Dang Thi H', 'dangthih@yahoo.com', '0911445566'),
+('Bui Van I', 'buivani@gmail.com', '0988001122'),
+('Do Thi J', 'dothij@mail.com', '0977885566');
+
+-- Chèn dữ liệu mẫu cho bảng orders
+INSERT INTO orders (customer_id, product_id, order_date, quantity) VALUES
+(1, 1, '2023-12-01', 1),
+(2, 2, '2023-12-02', 2),
+(3, 3, '2023-12-03', 1),
+(4, 4, '2023-12-04', 1),
+(5, 5, '2023-12-05', 3),
+(6, 6, '2023-12-06', 1),
+(7, 7, '2023-12-07', 2),
+(8, 8, '2023-12-08', 1),
+(9, 9, '2023-12-09', 1),
+(10, 10, '2023-12-10', 2);
+
