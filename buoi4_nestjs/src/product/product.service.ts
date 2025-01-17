@@ -5,6 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { products } from '@prisma/client';
+import { PrismaMysqlService } from 'src/prisma/prisma-mysql.service';
 
 @Injectable()
 export class ProductService {
@@ -12,7 +13,9 @@ export class ProductService {
 
   constructor(
     private configService: ConfigService,
-    private prismaService: PrismaService
+    private prismaService: PrismaService,
+    private prismaMysqlService: PrismaMysqlService
+
   ) { }
 
   async findAll() {
@@ -28,6 +31,11 @@ export class ProductService {
     return await this.prismaService.products.findMany();
   }
 
+
+  async findMysqlAll() {
+   
+    return await this.prismaMysqlService.products.findMany();
+  }
 
 
 

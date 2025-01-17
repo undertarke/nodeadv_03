@@ -1,25 +1,95 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query, UseInterceptors, UploadedFile, UploadedFiles, Headers, HttpException, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
 
-type userDTO = {
-  id: number,
-  username: string,
-  pass: string,
+class userDTO {
+
+  @ApiProperty()
+  id: number
+
+  @ApiProperty()
+  username: string
+
+  @ApiProperty()
+  pass: string
+
+  @ApiProperty()
   email: string
 }
 
+
+class FileUploadDto {
+  @ApiProperty({ type: 'string', format: 'binary' })
+  hinhAnh: any;
+}
+
+class FilesUploadDto {
+  @ApiProperty({ type: 'array', items: { type: 'string', format: 'binary' } })
+  hinhAnh: any[];
+}
+
+
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) { }
+  constructor(private readonly productService: ProductService
+
+  ) { }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: FileUploadDto
+  })
+  @UseInterceptors(FileInterceptor("hinhAnh", {
+    storage: diskStorage({
+      destination: process.cwd() + "/public/imgs", // nơi lưu hình ảnh
+      filename: (req, file, callback) => callback(null, new Date().getTime() + "_" + file.originalname),
+    })
+  }))
+  @Post("upload")
+  upload(@UploadedFile() file) {
+    return file
+  }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: FilesUploadDto
+  })
+  @UseInterceptors(FilesInterceptor("hinhAnh", 5, {
+    storage: diskStorage({
+      destination: process.cwd() + "/public/imgs", // nơi lưu hình ảnh
+      filename: (req, file, callback) => callback(null, new Date().getTime() + "_" + file.originalname),
+    })
+  }))
+  @Post("upload-multiple")
+  uploadMultiple(@UploadedFiles() files) {
+    return files
+  }
+
+
+
 
   // Request
   // Response
-  @Get("/demo/:uid")
+
+  @ApiQuery({
+    name: "uname"
+  })
+  @ApiParam({
+    name: "uid"
+  })
+  @ApiBody({
+    type: userDTO
+  })
+  @Post("/demo/:uid")
   getDemo(@Req() req,
-    @Query("uname") uname,
-    @Param("uid") uid,
+    @Query("uname") uname: string,
+    @Param("uid") uid: string,
     @Body() body: userDTO
   ) {
 
@@ -35,16 +105,31 @@ export class ProductController {
   }
 
 
-
   @Post()
   create(@Body() createProductDto) {
     return this.productService.create(createProductDto);
   }
 
+  // @UseGuards(AuthGuard("jwt"))
+  // @ApiBearerAuth()
   @Get()
-  findAll() {
+  findAll(
+    @Headers("Authorization") token: string
+  ) {
+
     return this.productService.findAll();
+
   }
+
+  @Get("/mysql")
+  findMysqlAll(
+    @Headers("Authorization") token: string
+  ) {
+
+    return this.productService.findMysqlAll();
+
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
