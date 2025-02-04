@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+
+  prisma = new PrismaClient();
+
+  getHello(){
+    return this.prisma.products.findMany();
   }
 }
