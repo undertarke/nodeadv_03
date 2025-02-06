@@ -1,12 +1,14 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
-  @Get()
-  getProduct(@Param('name') name: string) {
-    return this.appService.getProduct(name);
+  @MessagePattern("get_product")
+  async getProduct(@Payload() data) {
+    return await this.appService.getProduct(data);
   }
+
 }

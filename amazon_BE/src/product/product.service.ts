@@ -44,7 +44,7 @@ export class ProductService {
     
     let dataOrder = await this.prismaService.orders.create({ data: infoOrder });
     
-    // create shipping => Mysql
+    // create shipping => Mysql order_id
 
     // send mail order success 
     infoMail = {
