@@ -21,6 +21,7 @@ export class ProductService {
         pass: "ckmvrngahrhykdfv"
       }
     })
+    
     let infoMail = {
       from: "sangrom2003@gmail.com",
       to: email, // "khaitruong2112@gmail.com"
