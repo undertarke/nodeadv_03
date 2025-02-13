@@ -4,15 +4,12 @@ import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
-import { CacheModule } from '@nestjs/cache-manager';
+
+import { RedisCacheModule } from './redis_cache/redis_cache.module';
 
 @Module({
   imports: [ProductModule, ConfigModule.forRoot({ isGlobal: true }), PrismaModule,
-
-    CacheModule.register({
-      isGlobal: true,
-      ttl: 20000, // time to life milisecond
-    })
+    RedisCacheModule
   ],
   controllers: [AppController],
   providers: [AppService],

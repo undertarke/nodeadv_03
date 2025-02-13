@@ -21,7 +21,7 @@ export class ProductService {
         pass: "ckmvrngahrhykdfv"
       }
     })
-    
+
     let infoMail = {
       from: "sangrom2003@gmail.com",
       to: email, // "khaitruong2112@gmail.com"
@@ -41,10 +41,10 @@ export class ProductService {
       quantity,
       order_date: new Date()
     }
-    
-    
+
+
     let dataOrder = await this.prismaService.orders.create({ data: infoOrder });
-    
+
     // create shipping => Mysql order_id
 
     // send mail order success 
@@ -73,6 +73,19 @@ export class ProductService {
         }
       }
     });
+  }
+
+  async update() {
+    await this.prismaService.products.update({
+      data: {
+        name: "Product_10a",
+        price: 11,
+        stock:50,
+        image:""
+      }, where: {
+        id: 202205
+      }
+    })
   }
 
 }

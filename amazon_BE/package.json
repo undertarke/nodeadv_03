@@ -29,8 +29,10 @@
     "@prisma/client": "^6.2.1",
     "@types/nodemailer": "^6.4.17",
     "cache-manager": "5.7.6",
+    "cache-manager-redis-store": "2.0.0",
     "nodemailer": "^6.10.0",
     "prisma": "^6.2.1",
+    "redis": "^4.7.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

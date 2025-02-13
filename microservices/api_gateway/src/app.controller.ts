@@ -41,4 +41,19 @@ export class AppController {
 
     return dataOrder;
   }
+
+
+  @Get("/cache/save-cache")
+  async saveCache() {
+
+    this.productService.emit("save_cache", "");
+    return "sace cache"
+  }
+
+  @Get("/cache/get-cache")
+  async getCache() {
+
+    return await lastValueFrom(this.productService.send("get_cache", ""));
+  }
+
 }
