@@ -12,7 +12,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       name: "SHIPPING_NAME",
       transport: Transport.RMQ,
       options: {
-        urls: ["amqp://admin:1234@localhost:5672"],
+        urls: ["amqp://admin:1234@some-rabbit:5672"],
         queue: "shipping_queue",
         queueOptions: {
           durable: false // giữ lại queue khi RabbitMQ bị restart

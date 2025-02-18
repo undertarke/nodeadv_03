@@ -15,13 +15,13 @@ export class AppController {
   async saveOrder(@Payload() data) {
     let { userId, productId, quantity, email, firstName, lastName, address } = data;
 
+    console.log(data)
     let infoOrder = {
       user_id: userId,
       product_id: productId,
       quantity,
       order_date: new Date()
     }
-
 
     let dataOrder = await this.prismaService.orders.create({ data: infoOrder });
 

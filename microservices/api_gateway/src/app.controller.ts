@@ -30,14 +30,7 @@ export class AppController {
     this.notifyService.emit("send_mail_order", { email: email });
 
     // gọi service order để lưu data
-    let dataOrder = await lastValueFrom(this.orderService.send("save_order", info).pipe(
-      timeout(2000), // mỗi lần gọi lại cách nhau 2s
-      retry(2), // số lần gọi lại
-      catchError(error => {
-        console.log(error)
-        throw new Error("Services order lỗi");
-      })
-    ));
+    let dataOrder = await lastValueFrom(this.orderService.send("save_order", info));
 
     return dataOrder;
   }
