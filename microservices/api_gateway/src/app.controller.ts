@@ -49,4 +49,28 @@ export class AppController {
     return await lastValueFrom(this.productService.send("get_cache", ""));
   }
 
+  @Get("/get-elastic/:key")
+  async getElasticsearch(@Param("key") key) {
+    return await lastValueFrom(this.productService.send("get_elastic", key));
+  }
+
+  @Get("/error")
+  ApiError() {
+
+    throw new Error("Lỗi api gateway")
+
+    return ""
+  }
+
+  @Get("/error-notify")
+  async ApiErrorNotify() {
+    try {
+      return await lastValueFrom(this.notifyService.send("error_notify", ""));
+    } catch {
+      throw new Error("error api gateway");
+    }
+
+
+  }
+
 }

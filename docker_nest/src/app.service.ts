@@ -7,6 +7,6 @@ export class AppService {
   prisma = new PrismaClient();
 
   getHello(){
-    return this.prisma.products.findMany();
+    return this.prisma.products.findFirst();
   }
 }

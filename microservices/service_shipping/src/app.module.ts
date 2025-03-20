@@ -10,7 +10,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     name: "NOTIFY_NAME",
     transport: Transport.RMQ,
     options: {
-      urls: ["amqp://admin:1234@some-rabbit:5672"],
+      urls: ["amqp://admin:1234@localhost:5672"],
       queue: "notify_queue",
       queueOptions: {
         durable: false // giữ lại queue khi RabbitMQ bị restart

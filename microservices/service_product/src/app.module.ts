@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisCacheModule } from './redis_cache/redis_cache.module';
+import { ElasticModule } from './elastic/elastic.module';
 
 @Module({
-  imports: [PrismaModule, ConfigModule.forRoot({ isGlobal: true }), RedisCacheModule],
+  imports: [PrismaModule, ConfigModule.forRoot({ isGlobal: true }), RedisCacheModule, ElasticModule],
   controllers: [AppController],
   providers: [AppService],
 })
